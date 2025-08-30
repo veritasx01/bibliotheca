@@ -1,14 +1,14 @@
 /* Setup */
 @import url("https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-@import "bookcover.css";
+@import "bookdetails.css";
 
 /* Vars */
 :root {
   --clr1: rgb(96, 107, 91);
   --clr2: rgb(120, 99, 110);
-	--old-book-brown: #593d2b;
-	--book-contrast: #f7e8c3;
+  --old-book-brown: #593d2b;
+  --book-contrast: #f7e8c3;
 
   --clr1bg: rgb(153, 166, 149);
   --clr1bg-light: rgb(205, 221, 200);
@@ -39,7 +39,7 @@ h5,
 h6 {
   margin: 0.5em 0 0.5em;
   /* font-family: "Edu VIC WA NT Beginner", cursive; */
-	font-family: Garamond, "Times New Roman", serif;
+  font-family: Garamond, "Times New Roman", serif;
 }
 
 p {
@@ -70,10 +70,10 @@ object {
 }
 
 .app-header nav a {
-	margin: 0 1rem;
+  margin: 0 1rem;
 }
 .app-header nav {
-	margin-right: 55rem;
+  margin-right: 55rem;
 }
 
 button {
@@ -205,6 +205,23 @@ a.active {
   color: rgb(241, 212, 241);
   font-weight: 600;
   text-decoration: underline;
+}
+
+.books-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.book-preview {
+  display: inline-block;
+  margin: 0 10px 10px 10px;
+  max-width: 300px;
+}
+
+.book-preview img {
+  display: block;
 }
 
 @media (max-width: 720px) {

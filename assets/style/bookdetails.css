@@ -1,0 +1,8 @@
+.book-details {
+  width: 100%;
+  max-width: 15vw;
+}
+.book-details * {
+  margin: 0px;
+  margin-top: 0.5rem;
+}
