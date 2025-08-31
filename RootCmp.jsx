@@ -12,13 +12,11 @@ export function RootCmp() {
         <AppHeader />
         <main className="main-layout">
           <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/book" element={<BookIndex />} />
           </Routes>
         </main>
-        <h1>hi</h1>
       </section>
     </Router>
   );

@@ -6,3 +6,6 @@
   margin: 0px;
   margin-top: 0.5rem;
 }
+.book-details p {
+  border-bottom: 1px solid #ccc;
+}

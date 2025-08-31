@@ -35,7 +35,7 @@ export function createBooks(amount) {
       thumbnail: `https://www.coding-academy.org/books-photos/${1+i%20}.jpg`,
       language: 'en',
       listPrice: {
-        amount: utilService.getRandomIntInclusive(80, 500),
+        amount: utilService.getRandomIntInclusive(15, 250),
         currencyCode: 'EUR',
         isOnSale: Math.random() > 0.7,
       },

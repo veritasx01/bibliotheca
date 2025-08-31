@@ -4,20 +4,16 @@ const { useState } = React;
 export function BookPreview({ book }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggle = () => setIsExpanded((prev) => !prev);
-  if (isExpanded) {
-    return (
-      <article className="book-preview">
-        <img src={book.thumbnail} alt={"IMAGE"} />
-        <button onClick={toggle}>Collapse</button>
-        <BookDetails book={book} />
-      </article>
-    );
-  }
+  const details = isExpanded ? (
+    <BookDetails book={book} />
+  ) : (
+    <h2>{`Title: ${book.title}`}</h2>
+  );
   return (
     <article className="book-preview">
-      <img src={book.thumbnail} alt={"IMAGE"} />
+      <img src={book.thumbnail} alt={"Book Image"} />
       <button onClick={toggle}>Expand</button>
-      <h2>{"Title: " + book.title}</h2>
+      {details}
     </article>
   );
 }

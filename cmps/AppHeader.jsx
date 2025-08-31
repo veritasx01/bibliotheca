@@ -6,7 +6,7 @@ export function AppHeader() {
       <section className="header-container">
         <h1>Bibliotheca</h1>
         <nav> 
-          <NavLink to="/home">Home</NavLink>
+          <NavLink to="/">Home</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/book">Books</NavLink>
         </nav>
