@@ -25,6 +25,7 @@ const BOOK_KEY = 'BookKey';
 export const bookService = {
   query,
   createBooks,
+  getEmptyFilter,
   save,
 };
 
@@ -33,6 +34,11 @@ export function query(filterBy = {}) {
     if (filterBy.title) {
       const regExp = new RegExp(filterBy.title, 'i');
       books = books.filter((book) => regExp.test(book.title));
+    }
+    if (filterBy.amount) {
+      // TODO: add >, >=, <, <= operators
+      const parsedAmount = parseInt(filterBy.amount);
+      books = books.filter((book) => book.listPrice.amount === parsedAmount);
     }
     return books;
   });

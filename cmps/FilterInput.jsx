@@ -29,6 +29,8 @@ export function FilterInput({ onSetFilter }) {
     <form className="filter-form">
       <label>Title: </label>
       <input type="text" name="title" onChange={handleChange}></input>
+      <label>Price: </label>
+      <input type="text" name="amount" onChange={handleChange}></input>
       <input type="submit" value={"Submit"} onClick={handleSubmit}></input>
     </form>
   );
