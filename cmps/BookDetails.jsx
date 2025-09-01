@@ -1,5 +1,4 @@
 export function BookDetails({ book }) {
-  console.log(book);
   const listPrice = book.listPrice;
   const priceStr = getPriceStr(
     listPrice.amount,

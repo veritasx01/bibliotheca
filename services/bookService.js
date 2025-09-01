@@ -25,12 +25,11 @@ const BOOK_KEY = 'BookKey';
 export const bookService = {
   query,
   createBooks,
-  getDefaultFilter,
+  save,
 };
 
 export function query(filterBy = {}) {
   return storageService.query(BOOK_KEY).then((books) => {
-    console.log(`books is ${books}`);
     if (filterBy.title) {
       const regExp = new RegExp(filterBy.title, 'i');
       books = books.filter((book) => regExp.test(book.title));
@@ -39,8 +38,12 @@ export function query(filterBy = {}) {
   });
 }
 
-export function getDefaultFilter() {
-  return { title: '', pageCount: '0' };
+export function save(books) {
+  localStorage.setItem(BOOK_KEY, JSON.stringify(books));
+}
+
+export function getEmptyFilter() {
+  return { title: '', pageCount: '' };
 }
 
 export function createBooks(amount) {
