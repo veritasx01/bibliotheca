@@ -1,12 +1,15 @@
 import { BookList } from "../cmps/BookList.jsx";
-import { createBooks } from "../services/bookService.js";
+import { FilterInput } from "../cmps/FilterInput.jsx";
+import { createBooks, bookService, dummyBooks } from "../services/bookService.js";
+const { useState, useEffect } = React;
 
 export function BookIndex() {
-  let books = createBooks(10);
+  const [books, setBooks] = useState(dummyBooks);
   return (
     <section className="book-index">
       <h1>books</h1>
-      <BookList books={books}/>
+      <FilterInput />
+      <BookList books={books} />
     </section>
   );
 }
