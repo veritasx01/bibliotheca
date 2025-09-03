@@ -10,9 +10,11 @@ const { useState, useEffect } = React;
 export function BookIndex() {
   const [books, setBooks] = useState(dummyBooks);
   const [filter, setFilter] = useState(getEmptyFilter);
+  
   useEffect(() => {
     bookService.save(dummyBooks);
   },[])
+
   console.log('books:', books)
   useEffect(() => {
     bookService
@@ -22,9 +24,11 @@ export function BookIndex() {
         console.log("exception occured while filtering, exception is: ", error);
       });
   }, [filter]);
+
   function onSetFilter(newFilter) {
     setFilter((prevFilter) => ({ ...prevFilter, ...newFilter }));
   }
+
   return (
     <section className="book-index">
       <h1>books</h1>

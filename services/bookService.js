@@ -36,9 +36,8 @@ export function query(filterBy = {}) {
       books = books.filter((book) => regExp.test(book.title));
     }
     if (filterBy.amount) {
-      // TODO: add >, >=, <, <= operators
       const parsedAmount = parseInt(filterBy.amount);
-      books = books.filter((book) => book.listPrice.amount === parsedAmount);
+      books = books.filter((book) => book.listPrice.amount <= parsedAmount);
     }
     return books;
   });

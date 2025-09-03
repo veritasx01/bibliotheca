@@ -1,3 +1,5 @@
+import { LongText } from "./LongText.jsx";
+
 export function BookDetails({ book }) {
   const listPrice = book.listPrice;
   const priceStr = getPriceStr(
@@ -14,7 +16,7 @@ export function BookDetails({ book }) {
       <h3>{`Book subtitle: ${book.subtitle}`}</h3>
       <p> {`Authors: ${book.authors}`}</p>
       <p> {`Published date: ${book.publishedDate} ${ageClass}`}</p>
-      <p> {`Description: ${book.description}`}</p>
+      <LongText>{`Description: ${book.description}`}</LongText>
       <p> {`Page count: ${book.pageCount} ${readingAmount}`} </p>
       <p> {`Categories: ${book.categories}`}</p>
       <p> {`Language: ${book.language}`}</p>
