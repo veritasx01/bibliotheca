@@ -17,7 +17,7 @@ export const utilService = {
  * @param {number} length
  * @returns {string} txt - the random string
  */
-function makeId(length = 6) {
+function makeId(length = 16) {
   var txt = '';
   var possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

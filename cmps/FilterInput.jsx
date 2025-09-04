@@ -8,7 +8,6 @@ export function FilterInput({ onSetFilter }) {
   // }, [formFilter]);
   function handleSubmit(event) {
     event.preventDefault();
-    console.log('hallo');
     onSetFilter(formFilter);
   }
   function handleChange({ target }) {

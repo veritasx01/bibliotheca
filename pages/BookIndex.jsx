@@ -3,16 +3,16 @@ import { FilterInput } from "../cmps/FilterInput.jsx";
 import {
   bookService,
   dummyBooks,
-  getEmptyFilter
+  getEmptyFilter,
 } from "../services/bookService.js";
 const { useState, useEffect } = React;
 
 export function BookIndex() {
   const [books, setBooks] = useState(dummyBooks);
-  const [filter, setFilter] = useState(getEmptyFilter);
+  const [filter, setFilter] = useState(getEmptyFilter());
   
   useEffect(() => {
-    bookService.save(dummyBooks);
+    bookService.save(books);
   },[])
 
   console.log('books:', books)
@@ -32,7 +32,7 @@ export function BookIndex() {
   return (
     <section className="book-index">
       <h1>books</h1>
-      <FilterInput onSetFilter={onSetFilter}/>
+      <FilterInput onSetFilter={onSetFilter} />
       <BookList books={books} />
     </section>
   );

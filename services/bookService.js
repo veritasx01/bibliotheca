@@ -45,6 +45,8 @@ export function query(filterBy = {}) {
 
 export function save(books) {
   localStorage.setItem(BOOK_KEY, JSON.stringify(books));
+  return;
+  storageService.post(BOOK_KEY,books);
 }
 
 export function getEmptyFilter() {
