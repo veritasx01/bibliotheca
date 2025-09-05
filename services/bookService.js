@@ -44,13 +44,17 @@ export function query(filterBy = {}) {
   });
 }
 
-export function save(books) {
-  localStorage.setItem(BOOK_KEY, JSON.stringify(books));
-  return;
-  if (books.id) {
-    storageService.put(BOOK_KEY, books);
+export function save(book) {
+  const hasBook = storageService.hasEntity(BOOK_KEY, book.id);
+  if (book.id && hasBook) {
+    storageService.put(BOOK_KEY, book);
+  } else {
+    storageService.post(BOOK_KEY, book, !hasBook);
   }
-  storageService.post(BOOK_KEY, books);
+}
+
+function remove(bookId) {
+  return storageService.remove(BOOK_KEY, bookId)
 }
 
 export function getEmptyFilter() {

@@ -5,6 +5,7 @@ export const storageService = {
   post,
   put,
   remove,
+  hasEntity,
 };
 
 function query(entityType, delay = 0) {
@@ -25,9 +26,9 @@ function get(entityType, entityId) {
   });
 }
 
-function post(entityType, newEntity) {
+function post(entityType, newEntity, changeId = true) {
   newEntity = { ...newEntity };
-  newEntity.id = utilService.makeId();
+  if (changeId) newEntity.id = utilService.makeId();
   return query(entityType).then((entities) => {
     entities.push(newEntity);
     _save(entityType, entities);
@@ -48,6 +49,13 @@ function put(entityType, updatedEntity) {
     entities.splice(idx, 1, entityToUpdate);
     _save(entityType, entities);
     return updatedEntity;
+  });
+}
+
+function hasEntity(entityType, entity) {
+  query(entityType).then((entities) => {
+    const idx = entities.findIndex((ent) => ent.id === entity.id);
+    return idx >= 0;
   });
 }
 
