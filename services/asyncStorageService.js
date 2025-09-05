@@ -16,10 +16,10 @@ function get(entityType, entityId) {
   return query(entityType).then((entities) => {
     const entity = entities.find((entity) => entity.id === entityId);
     if (!entity) {
-        return null;
-        throw new Error(
-          `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
-        );
+      console.log(
+        `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
+      );
+      return null;
     }
     return entity;
   });
@@ -39,10 +39,10 @@ function put(entityType, updatedEntity) {
   return query(entityType).then((entities) => {
     const idx = entities.findIndex((entity) => entity.id === updatedEntity.id);
     if (idx < 0) {
-        return null;
-        throw new Error(
-          `Update failed, cannot find entity with id: ${entityId} in: ${entityType}`
-        );
+      console.log(
+        `Update failed, cannot find entity with id: ${updatedEntity.id} in: ${entityType}`
+      );
+      return null;
     }
     const entityToUpdate = { ...entities[idx], ...updatedEntity };
     entities.splice(idx, 1, entityToUpdate);
@@ -55,10 +55,10 @@ function remove(entityType, entityId) {
   return query(entityType).then((entities) => {
     const idx = entities.findIndex((entity) => entity.id === entityId);
     if (idx < 0) {
-        return;
-        throw new Error(
-          `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`
-        );
+      console.log(
+        `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`
+      );
+      return;
     }
     entities.splice(idx, 1);
     _save(entityType, entities);
