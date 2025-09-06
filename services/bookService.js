@@ -28,6 +28,7 @@ export const bookService = {
   createBooks,
   getEmptyFilter,
   save,
+  remove,
   getEmptyBook,
 };
 
