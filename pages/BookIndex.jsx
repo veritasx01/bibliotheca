@@ -33,7 +33,6 @@ export function BookIndex() {
   }
   
   function makeBook() {
-    console.log('h');
     bookService.save(createBooks(1)[0]);
   }
 

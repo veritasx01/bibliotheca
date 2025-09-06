@@ -1,11 +1,11 @@
-import { BookDetails } from "./BookDetails.jsx";
+import { BookData} from "./BookData.jsx";
 const { useState } = React;
 
 export function BookPreview({ book }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggle = () => setIsExpanded((prev) => !prev);
   const details = isExpanded ? (
-    <BookDetails book={book} />
+    <BookData book={book} />
   ) : (
     <h2>{`Title: ${book.title}`}</h2>
   );

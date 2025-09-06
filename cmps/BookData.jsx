@@ -1,6 +1,6 @@
 import { LongText } from "./LongText.jsx";
 
-export function BookDetails({ book }) {
+export function BookData({ book }) {
   const listPrice = book.listPrice;
   const priceStr = getPriceStr(
     listPrice.amount,
@@ -54,9 +54,13 @@ function getPriceStr(amount, currencyCode, isOnSale) {
   const saleStr = isOnSale ? " (On Sale)" : "";
   let amountStr = amount;
   if (amountStr > 150) {
-    amountStr = <span style={{color: "red"}}>{amountStr}</span>
+    amountStr = <span style={{ color: "red" }}>{amountStr}</span>;
   } else if (amountStr < 20) {
-    amountStr = <span style={{color: "green"}}>{amountStr}</span>
+    amountStr = <span style={{ color: "green" }}>{amountStr}</span>;
   }
-  return (<span>{amountStr} {currencyCode} {saleStr}</span>);
+  return (
+    <span>
+      {amountStr} {currencyCode} {saleStr}
+    </span>
+  );
 }
