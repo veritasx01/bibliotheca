@@ -55,9 +55,9 @@ function get(bookId) {
 export function save(book) {
   const hasBook = storageService.hasEntity(BOOK_KEY, book.id);
   if (book.id && hasBook) {
-    storageService.put(BOOK_KEY, book);
+    return storageService.put(BOOK_KEY, book);
   } else {
-    storageService.post(BOOK_KEY, book, !hasBook);
+    return storageService.post(BOOK_KEY, book, !hasBook);
   }
 }
 

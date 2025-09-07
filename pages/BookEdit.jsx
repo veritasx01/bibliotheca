@@ -1,4 +1,6 @@
 import { bookService } from "../services/bookService.js";
+import { UserMsg } from "../cmps/UserMsg.jsx";
+import { showErrorMsg, showSuccessMsg } from "../services/eventBusService.js";
 const { useParams, useNavigate } = ReactRouter;
 const { useState, useEffect } = React;
 
@@ -16,8 +18,14 @@ export function BookEdit() {
     ev.preventDefault();
     bookService
       .save(book)
-      .then(() => console.log("Book has successfully saved!"))
-      .catch(() => console.log(`couldn't save book`))
+      .then(() => {
+        console.log("Book has successfully saved!");
+        showSuccessMsg("Book has successfully saved!")
+      })
+      .catch(() => {
+        console.log("couldn't save book");
+        showErrorMsg("couldn't save book")
+      })
       .finally(() => navigate("/book"));
   }
 
