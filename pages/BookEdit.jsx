@@ -9,7 +9,7 @@ export function BookEdit() {
 
   useEffect(() => {
     if (!params.bookId) return;
-    //bookService.get(params.bookId).then(setBook);
+    bookService.get(params.bookId).then(setBook);
   }, []);
 
   function onSave(ev) {

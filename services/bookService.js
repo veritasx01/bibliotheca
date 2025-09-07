@@ -69,6 +69,22 @@ export function getEmptyFilter() {
   return { title: '', pageCount: '' };
 }
 
+function saveReview(bookId, reviewToSave) {
+  return get(bookId).then((book) => {
+    const review = _createReview(reviewToSave);
+    book.reviews.unshift(review);
+    return save(book).then(() => review);
+  });
+}
+
+function removeReview(bookId, reviewId) {
+  return get(bookId).then((book) => {
+    const newReviews = book.reviews.filter((review) => review.id !== reviewId);
+    book.reviews = newReviews;
+    return save(book);
+  });
+}
+
 export function createBooks(amount) {
   const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion'];
   const books = [];
@@ -281,6 +297,13 @@ export const dummyBooks = [
   },
 ];
 
+function _createReview(reviewToSave) {
+  return {
+    id: makeId(),
+    ...reviewToSave,
+  };
+}
+
 function getEmptyBook() {
   const book = {
     id: '',
@@ -311,6 +334,30 @@ function _setNextPrevBookId(book) {
       : books[books.length - 1];
     book.nextBookId = nextBook.id;
     book.prevBookId = prevBook.id;
+    return book;
+  });
+}
+
+function _formatGoogleBooks(googleBooks) {
+  return googleBooks.map((googleBook) => {
+    const { volumeInfo } = googleBook;
+    const book = {
+      id: googleBook.id,
+      title: volumeInfo.title,
+      description: volumeInfo.description,
+      pageCount: volumeInfo.pageCount,
+      authors: volumeInfo.authors,
+      categories: volumeInfo.categories,
+      publishedDate: volumeInfo.publishedDate,
+      language: volumeInfo.language,
+      listPrice: {
+        amount: getRandomIntInclusive(80, 500),
+        currencyCode: 'EUR',
+        isOnSale: Math.random() > 0.7,
+      },
+      reviews: [],
+    };
+    if (volumeInfo.imageLinks) book.thumbnail = volumeInfo.imageLinks.thumbnail;
     return book;
   });
 }

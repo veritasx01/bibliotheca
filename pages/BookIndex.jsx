@@ -3,15 +3,16 @@ import { FilterInput } from "../cmps/FilterInput.jsx";
 import {
   bookService,
   createBooks,
-  dummyBooks,
   getEmptyFilter,
 } from "../services/bookService.js";
 const { Link } = ReactRouterDOM;
 const { useState, useEffect } = React;
+const { useNavigate } = ReactRouterDOM;
 
 export function BookIndex() {
   const [books, setBooks] = useState([]);
   const [filter, setFilter] = useState(getEmptyFilter());
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadBooks();
@@ -31,7 +32,7 @@ export function BookIndex() {
   function onSetFilter(newFilter) {
     setFilter((prevFilter) => ({ ...prevFilter, ...newFilter }));
   }
-  
+
   function makeBook() {
     bookService.save(createBooks(1)[0]);
   }
@@ -42,7 +43,7 @@ export function BookIndex() {
       <FilterInput onSetFilter={onSetFilter} />
       <button onClick={makeBook}>makeBook</button>
       <section className="add-book-container">
-        <Link to="/book/edit">Add book</Link>
+        <button onClick={() => navigate("/book/edit")}>Add Book</button>
       </section>
       <BookList books={books} />
     </section>

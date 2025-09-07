@@ -99,8 +99,8 @@ export function BookDetails() {
           alt=""
         />
       )}
-      <button className="close">
-        <Link to="/book">X</Link>
+      <button className="close" onClick={() => navigate('/book')}>
+        X
       </button>
     </article>
   );
