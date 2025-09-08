@@ -30,6 +30,7 @@ export const bookService = {
   save,
   remove,
   getEmptyBook,
+  getEmptyReview,
 };
 
 export function query(filterBy = {}) {
@@ -69,22 +70,6 @@ export function getEmptyFilter() {
   return { title: '', pageCount: '' };
 }
 
-function saveReview(bookId, reviewToSave) {
-  return get(bookId).then((book) => {
-    const review = _createReview(reviewToSave);
-    book.reviews.unshift(review);
-    return save(book).then(() => review);
-  });
-}
-
-function removeReview(bookId, reviewId) {
-  return get(bookId).then((book) => {
-    const newReviews = book.reviews.filter((review) => review.id !== reviewId);
-    book.reviews = newReviews;
-    return save(book);
-  });
-}
-
 export function createBooks(amount) {
   const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion'];
   const books = [];
@@ -112,6 +97,120 @@ export function createBooks(amount) {
   }
   console.log(books);
   return books;
+}
+
+function saveReview(bookId, reviewToSave) {
+  return get(bookId).then((book) => {
+    const review = _createReview(reviewToSave);
+    book.reviews.unshift(review);
+    return save(book).then(() => review);
+  });
+}
+
+function removeReview(bookId, reviewId) {
+  return get(bookId).then((book) => {
+    const newReviews = book.reviews.filter((review) => review.id !== reviewId);
+    book.reviews = newReviews;
+    return save(book);
+  });
+}
+
+function getEmptyReview() {
+  return {
+    fullName: 'new name',
+    rating: 0,
+    date: new Date().toISOString().slice(0, 10),
+    txt: '',
+    selected: 0,
+  };
+}
+
+function getGoogleBooks(bookName) {
+  if (bookName === '') return Promise.resolve();
+  const googleBooks = gCache[bookName];
+  if (googleBooks) {
+    console.log('data from storage...', googleBooks);
+    return Promise.resolve(googleBooks);
+  }
+
+  const url = `https://www.googleapis.com/books/v1/volumes?printType=books&q=${bookName}`;
+  return axios.get(url).then((res) => {
+    const data = res.data.items;
+    console.log('data from network...', data);
+    const books = _formatGoogleBooks(data);
+    gCache[bookName] = books;
+    saveToStorage(CACHE_STORAGE_KEY, gCache);
+    return books;
+  });
+}
+
+function addGoogleBook(book) {
+  return storageService.post(BOOK_KEY, book, false);
+}
+
+function getEmptyBook() {
+  const book = {
+    id: '',
+    title: '',
+    subtitle: '',
+    authors: [],
+    publishedDate: 0,
+    description: '',
+    pageCount: 0,
+    categories: [],
+    thumbnail: '',
+    language: '',
+    listPrice: {
+      amount: 0,
+      currencyCode: 'EUR',
+      isOnSale: false,
+    },
+  };
+  return book;
+}
+
+function _createReview(reviewToSave) {
+  return {
+    id: makeId(),
+    ...reviewToSave,
+  };
+}
+
+function _setNextPrevBookId(book) {
+  return storageService.query(BOOK_KEY).then((books) => {
+    const bookIdx = books.findIndex((currBook) => currBook.id === book.id);
+    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0];
+    const prevBook = books[bookIdx - 1]
+      ? books[bookIdx - 1]
+      : books[books.length - 1];
+    book.nextBookId = nextBook.id;
+    book.prevBookId = prevBook.id;
+    return book;
+  });
+}
+
+function _formatGoogleBooks(googleBooks) {
+  return googleBooks.map((googleBook) => {
+    const { volumeInfo } = googleBook;
+    const book = {
+      id: googleBook.id,
+      title: volumeInfo.title,
+      description: volumeInfo.description,
+      pageCount: volumeInfo.pageCount,
+      authors: volumeInfo.authors,
+      categories: volumeInfo.categories,
+      publishedDate: volumeInfo.publishedDate,
+      language: volumeInfo.language,
+      listPrice: {
+        amount: getRandomIntInclusive(80, 500),
+        currencyCode: 'EUR',
+        isOnSale: Math.random() > 0.7,
+      },
+      reviews: [],
+    };
+    if (volumeInfo.imageLinks) book.thumbnail = volumeInfo.imageLinks.thumbnail;
+    return book;
+  });
 }
 
 export const dummyBooks = [
@@ -296,68 +395,3 @@ export const dummyBooks = [
     },
   },
 ];
-
-function _createReview(reviewToSave) {
-  return {
-    id: makeId(),
-    ...reviewToSave,
-  };
-}
-
-function getEmptyBook() {
-  const book = {
-    id: '',
-    title: '',
-    subtitle: '',
-    authors: [],
-    publishedDate: 0,
-    description: '',
-    pageCount: 0,
-    categories: [],
-    thumbnail: '',
-    language: '',
-    listPrice: {
-      amount: 0,
-      currencyCode: 'EUR',
-      isOnSale: false,
-    },
-  };
-  return book;
-}
-
-function _setNextPrevBookId(book) {
-  return storageService.query(BOOK_KEY).then((books) => {
-    const bookIdx = books.findIndex((currBook) => currBook.id === book.id);
-    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0];
-    const prevBook = books[bookIdx - 1]
-      ? books[bookIdx - 1]
-      : books[books.length - 1];
-    book.nextBookId = nextBook.id;
-    book.prevBookId = prevBook.id;
-    return book;
-  });
-}
-
-function _formatGoogleBooks(googleBooks) {
-  return googleBooks.map((googleBook) => {
-    const { volumeInfo } = googleBook;
-    const book = {
-      id: googleBook.id,
-      title: volumeInfo.title,
-      description: volumeInfo.description,
-      pageCount: volumeInfo.pageCount,
-      authors: volumeInfo.authors,
-      categories: volumeInfo.categories,
-      publishedDate: volumeInfo.publishedDate,
-      language: volumeInfo.language,
-      listPrice: {
-        amount: getRandomIntInclusive(80, 500),
-        currencyCode: 'EUR',
-        isOnSale: Math.random() > 0.7,
-      },
-      reviews: [],
-    };
-    if (volumeInfo.imageLinks) book.thumbnail = volumeInfo.imageLinks.thumbnail;
-    return book;
-  });
-}

@@ -53,7 +53,7 @@ function put(entityType, updatedEntity) {
 }
 
 function hasEntity(entityType, entity) {
-  query(entityType).then((entities) => {
+  return query(entityType).then((entities) => {
     const idx = entities.findIndex((ent) => ent.id === entity.id);
     return idx >= 0;
   });
