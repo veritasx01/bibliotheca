@@ -52,11 +52,10 @@ function put(entityType, updatedEntity) {
   });
 }
 
-function hasEntity(entityType, entity) {
-  return query(entityType).then((entities) => {
-    const idx = entities.findIndex((ent) => ent.id === entity.id);
-    return idx >= 0;
-  });
+function hasEntity(entityType, entityId) {
+  return query(entityType).then((entities) =>
+    entities.some(ent => ent.id === entityId)
+  )
 }
 
 function remove(entityType, entityId) {

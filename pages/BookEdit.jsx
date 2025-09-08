@@ -1,5 +1,5 @@
 import { bookService } from "../services/bookService.js";
-import { UserMsg } from "../cmps/UserMsg.jsx";
+import { AddReview } from "../cmps/AddReview.jsx";
 import { showErrorMsg, showSuccessMsg } from "../services/eventBusService.js";
 const { useParams, useNavigate } = ReactRouter;
 const { useState, useEffect } = React;
@@ -142,6 +142,7 @@ export function BookEdit() {
 
         <button>Save</button>
       </form>
+      <AddReview></AddReview>
     </section>
   );
 }

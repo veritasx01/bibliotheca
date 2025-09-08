@@ -30,6 +30,8 @@ export const bookService = {
   save,
   remove,
   getEmptyBook,
+  saveReview,
+  removeReview,
   getEmptyReview,
 };
 
@@ -53,8 +55,8 @@ function get(bookId) {
     .then((book) => _setNextPrevBookId(book));
 }
 
-export function save(book) {
-  const hasBook = storageService.hasEntity(BOOK_KEY, book.id);
+export async function save(book) {
+  const hasBook = book.id ? await storageService.hasEntity(BOOK_KEY, book.id) : false;
   if (book.id && hasBook) {
     return storageService.put(BOOK_KEY, book);
   } else {
@@ -95,12 +97,12 @@ export function createBooks(amount) {
     };
     books.push(book);
   }
-  console.log(books);
   return books;
 }
 
 function saveReview(bookId, reviewToSave) {
   return get(bookId).then((book) => {
+    if (!book.reviews) book.reviews = [];
     const review = _createReview(reviewToSave);
     book.reviews.unshift(review);
     return save(book).then(() => review);
@@ -109,6 +111,7 @@ function saveReview(bookId, reviewToSave) {
 
 function removeReview(bookId, reviewId) {
   return get(bookId).then((book) => {
+    if (!book.reviews) book.reviews = [];
     const newReviews = book.reviews.filter((review) => review.id !== reviewId);
     book.reviews = newReviews;
     return save(book);
@@ -171,7 +174,7 @@ function getEmptyBook() {
 
 function _createReview(reviewToSave) {
   return {
-    id: makeId(),
+    id: utilService.makeId(),
     ...reviewToSave,
   };
 }

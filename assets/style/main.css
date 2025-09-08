@@ -5,6 +5,7 @@
 @import "cmps/BookIndex.css";
 @import "cmps/BookEdit.css";
 @import "cmps/UserMsg.css";
+@import "cmps/AddReview.css";
 
 /* Vars */
 :root {
@@ -135,6 +136,10 @@ input:focus {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+
+.bold-txt {
+  font-weight: bold;
 }
 
 /* font awsome */
