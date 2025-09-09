@@ -1,7 +1,7 @@
 import { bookService } from "../services/bookService.js";
 import { AddReview } from "../cmps/AddReview.jsx";
+import { ReviewsList } from "../cmps/ReviewsList.jsx";
 import { showErrorMsg, showSuccessMsg } from "../services/eventBusService.js";
-const { useParams, useNavigate } = ReactRouter;
 const { useState, useEffect } = React;
 
 export function BookEdit() {
@@ -46,6 +46,27 @@ export function BookEdit() {
     setBook((prevBook) => ({ ...prevBook, [prop]: value }));
   }
 
+  async function saveReview(event, review) {
+    event.preventDefault();
+    try {
+      await bookService.saveReview(params.bookId, review);
+      const updatedBook = await bookService.get(params.bookId);
+      setBook(updatedBook);
+    } catch (e) {
+      console.log("error: ", e);
+    }
+  }
+  async function handleDelete(event, reviewId) {
+    event.preventDefault();
+    try {
+      await bookService.removeReview(book.id, reviewId);
+      const updatedBook = await bookService.get(params.bookId);
+      setBook(updatedBook);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   function handleChangeListPrice({ target }) {
     const { type, name: prop } = target;
     let { value } = target;
@@ -68,10 +89,12 @@ export function BookEdit() {
   }
 
   const { title, authors, listPrice, description, pageCount } = book;
-
+  const backKeyword = params.bookId ? "details" : "list";
   return (
     <section className="book-edit">
-      <button onClick={() => navigate(`../book/${params.bookId}`)}>Go back to details</button>
+      <button
+        onClick={() => navigate(`../book/${params.bookId}`)}
+      >{`Go back to ${backKeyword}`}</button>
       <h2>Add Book</h2>
       Add a book manually:
       <form onSubmit={onSave}>
@@ -143,43 +166,8 @@ export function BookEdit() {
 
         <button>Save</button>
       </form>
-      <AddReview></AddReview>
-      <ScrollableList items={book.reviews}></ScrollableList>
+      <AddReview onSaveReview={saveReview}></AddReview>
+      <ReviewsList reviews={book.reviews} onDelete={handleDelete}></ReviewsList>
     </section>
   );
 }
-
-function ScrollableList({ items, onDelete }) {
-  if (!items) items = [];
-  return (
-    <div
-      style={{
-        maxHeight: "300px", // constrain height
-        overflowY: "auto", // vertical scrolling
-        border: "1px solid #ccc",
-        padding: "0.5rem",
-      }}
-    >
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {items.map((item, index) => (
-          <li
-            key={item.id}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "0.5rem",
-            }}
-          >
-            <span>
-              full name: {item.fullName} | rating: {item.rating} | read at: {item.date} {" "}
-            </span>
-            <button onClick={() => onDelete(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default ScrollableList;

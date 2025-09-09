@@ -6,6 +6,7 @@
 @import "cmps/BookEdit.css";
 @import "cmps/UserMsg.css";
 @import "cmps/AddReview.css";
+@import "cmps/ReviewsList.css";
 
 /* Vars */
 :root {

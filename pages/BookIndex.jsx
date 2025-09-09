@@ -7,11 +7,20 @@ import {
 } from "../services/bookService.js";
 const { Link } = ReactRouterDOM;
 const { useState, useEffect } = React;
-const { useNavigate } = ReactRouterDOM;
+const { useNavigate, useSearchParams } = ReactRouterDOM;
 
 export function BookIndex() {
   const [books, setBooks] = useState([]);
-  const [filter, setFilter] = useState(getEmptyFilter());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const amountParam = searchParams.get("amount");
+  //const pageCountParam = searchParams.get("pageCount");
+  const titleParam = searchParams.get("title");
+  const initialFilter = {
+    amount: amountParam,
+    //pageCount: pageCountParam,
+    title: titleParam,
+  };
+  const [filter, setFilter] = useState(initialFilter);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,14 +36,32 @@ export function BookIndex() {
       });
   }
 
+  async function removeBook(bookId) {
+    try {
+      await bookService.remove(bookId);
+      setBooks((prev) => prev.filter((b) => b.id !== bookId));
+    } catch (err) {
+      console.error("remove failed", err);
+    }
+  }
+
   console.log("books:", books);
   if (!books) return <div className="loader"></div>;
   function onSetFilter(newFilter) {
-    setFilter((prevFilter) => ({ ...prevFilter, ...newFilter }));
+    const updatedFilter = { ...filter, ...newFilter };
+    console.log(updatedFilter);
+    setFilter(updatedFilter);
+    setSearchParams(updatedFilter);
   }
 
-  function makeBook() {
-    bookService.save(createBooks(1)[0]);
+  async function makeBook() {
+    const newBook = createBooks(1)[0];
+    try {
+      const saved = await bookService.save(newBook);
+      setBooks(prev => [saved, ...prev]);
+    } catch (err) {
+      console.error('save failed', err);
+    }
   }
 
   return (
@@ -45,7 +72,7 @@ export function BookIndex() {
       <section className="add-book-container">
         <button onClick={() => navigate("/book/edit")}>Add Book</button>
       </section>
-      <BookList books={books} />
+      <BookList books={books} onRemove={() => removeBook}/>
     </section>
   );
 }

@@ -56,7 +56,9 @@ function get(bookId) {
 }
 
 export async function save(book) {
-  const hasBook = book.id ? await storageService.hasEntity(BOOK_KEY, book.id) : false;
+  const hasBook = book.id
+    ? await storageService.hasEntity(BOOK_KEY, book.id)
+    : false;
   if (book.id && hasBook) {
     return storageService.put(BOOK_KEY, book);
   } else {

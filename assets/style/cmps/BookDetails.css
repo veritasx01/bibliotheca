@@ -1,8 +1,7 @@
 .book-details {
   width: 100%;
   max-width: 15vw;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
 }
 .book-details * {
   margin: 0px;
@@ -10,4 +9,11 @@
 }
 .book-details > p {
   border-bottom: 1px solid #ccc;
+}
+.book-details button {
+  margin: 5px;
+}
+.book-details-container {
+  display: flex;
+  justify-content: center;
 }

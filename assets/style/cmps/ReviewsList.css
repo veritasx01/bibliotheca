@@ -1,0 +1,16 @@
+.reviews-list {
+  max-width: 600px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.reviews-list > p {
+  margin: 0px;
+}
+.reviews-list li:hover {
+  background: lightblue;
+}
+.reviews-list li {
+  margin: 0px 0px 6px 0px;
+  list-style-type: none;
+}

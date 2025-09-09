@@ -6,7 +6,7 @@ import { BookDetails } from "./pages/BookDetails.jsx";
 import { BookEdit } from "./pages/BookEdit.jsx";
 import { UserMsg } from "./cmps/UserMsg.jsx";
 const Router = ReactRouterDOM.HashRouter;
-const { Routes, Route, Navigate } = ReactRouterDOM;
+const { Routes, Route, Navigate } = ReactRouter;
 
 export function RootCmp() {
   return (

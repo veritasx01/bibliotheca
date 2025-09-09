@@ -25,12 +25,12 @@ export function FilterInput({ onSetFilter }) {
     setFormFilter((prevFilter) => ({ ...prevFilter, [field]: value }));
   }
   return (
-    <form className="filter-form">
+    <form className="filter-form" onSubmit={handleSubmit}>
       <label>Title: </label>
       <input type="text" name="title" onChange={handleChange}></input>
       <label>Price: </label>
       <input type="text" name="amount" onChange={handleChange}></input>
-      <input type="submit" value={"Submit"} onClick={handleSubmit}></input>
+      <button type="submit">Submit</button>
     </form>
   );
 }

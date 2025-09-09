@@ -2,7 +2,7 @@ import { bookService } from "../services/bookService.js";
 const { useParams } = ReactRouter;
 const { useState, useEffect } = React;
 
-export function AddReview() {
+export function AddReview({ onSaveReview }) {
   const [review, setReview] = useState(bookService.getEmptyReview());
   const params = useParams();
 
@@ -20,25 +20,15 @@ export function AddReview() {
         break;
     }
 
-    if (prop === "rating") value = +value
+    if (prop === "rating") value = +value;
 
     setReview((prevReview) => ({ ...prevReview, [prop]: value }));
-  }
-
-  function saveReview(event) {
-    event.preventDefault();
-    console.log("review: ", review);
-    try {
-      bookService.saveReview(params.bookId, review);
-    } catch (e) {
-      console.log("error: ", e);
-    }
   }
 
   return (
     <section className="add-review">
       <h2>Add a review:</h2>
-      <form onSubmit={saveReview}>
+      <form onSubmit={(event) => onSaveReview(event, review)}>
         <label className="bold-txt" htmlFor="fullname">
           Full Name:{" "}
         </label>
@@ -61,7 +51,7 @@ export function AddReview() {
         <label className="bold-txt" htmlFor="readAt">
           Read At:{" "}
         </label>
-        <input onChange={updateReview} id="readAt" type="date" name="readAt" />
+        <input onChange={updateReview} id="readAt" type="date" name="date" />
         <button>Submit</button>
       </form>
     </section>
