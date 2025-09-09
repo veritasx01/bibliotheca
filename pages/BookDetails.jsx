@@ -57,16 +57,13 @@ export function BookDetails() {
     <article className="book-details">
       <nav className="book-details-nav">
         <Link to={`/book/${prevBookId}`}>
-          <button>
-            {'<-'}
-          </button>
+          <button>{"<-"}</button>
         </Link>
         <Link to={`/book/${nextBookId}`}>
-          <button>
-            {'->'}
-          </button>
+          <button>{"->"}</button>
         </Link>
       </nav>
+      <button onClick={() => navigate(`../book/edit/${params.bookId}`)}>Go to editing</button>
       <h2>{title}</h2>
       <span>{getBookDateLevel()}</span>
       <h4>{bookReadingLevel()}</h4>
@@ -99,8 +96,8 @@ export function BookDetails() {
           alt=""
         />
       )}
-      <button className="close" onClick={() => navigate('/book')}>
-        X
+      <button className="close" onClick={() => navigate("/book")}>
+        Go back to book list
       </button>
     </article>
   );

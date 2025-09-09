@@ -1,6 +1,8 @@
 .book-details {
   width: 100%;
   max-width: 15vw;
+  justify-content: center;
+  align-items: center;
 }
 .book-details * {
   margin: 0px;

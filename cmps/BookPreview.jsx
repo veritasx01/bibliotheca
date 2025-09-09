@@ -16,7 +16,7 @@ export function BookPreview({ book, onRemove }) {
       <img src={book.thumbnail} alt={"Book Image"} />
       <button onClick={toggle}>Expand</button>
       <button onClick={() => onRemove(book.id)}>Remove</button>
-      <button onClick={() => navigate(`edit/${book.id}`)}>Details</button>
+      <button onClick={() => navigate(`${book.id}`)}>Details</button>
       {details}
     </article>
   );

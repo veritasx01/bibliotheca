@@ -20,11 +20,11 @@ export function BookEdit() {
       .save(book)
       .then(() => {
         console.log("Book has successfully saved!");
-        showSuccessMsg("Book has successfully saved!")
+        showSuccessMsg("Book has successfully saved!");
       })
       .catch(() => {
         console.log("couldn't save book");
-        showErrorMsg("couldn't save book")
+        showErrorMsg("couldn't save book");
       })
       .finally(() => navigate("/book"));
   }
@@ -71,6 +71,7 @@ export function BookEdit() {
 
   return (
     <section className="book-edit">
+      <button onClick={() => navigate(`../book/${params.bookId}`)}>Go back to details</button>
       <h2>Add Book</h2>
       Add a book manually:
       <form onSubmit={onSave}>
@@ -143,6 +144,42 @@ export function BookEdit() {
         <button>Save</button>
       </form>
       <AddReview></AddReview>
+      <ScrollableList items={book.reviews}></ScrollableList>
     </section>
   );
 }
+
+function ScrollableList({ items, onDelete }) {
+  if (!items) items = [];
+  return (
+    <div
+      style={{
+        maxHeight: "300px", // constrain height
+        overflowY: "auto", // vertical scrolling
+        border: "1px solid #ccc",
+        padding: "0.5rem",
+      }}
+    >
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        {items.map((item, index) => (
+          <li
+            key={item.id}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "0.5rem",
+            }}
+          >
+            <span>
+              full name: {item.fullName} | rating: {item.rating} | read at: {item.date} {" "}
+            </span>
+            <button onClick={() => onDelete(item.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default ScrollableList;
