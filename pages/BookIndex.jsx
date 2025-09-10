@@ -12,12 +12,14 @@ const { useNavigate, useSearchParams } = ReactRouterDOM;
 export function BookIndex() {
   const [books, setBooks] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const amountParam = searchParams.get("amount");
-  //const pageCountParam = searchParams.get("pageCount");
+  const maxAmountParam = searchParams.get("maxAmount");
+  const minAmountParam = searchParams.get("minAmount");
+  const pageCountParam = searchParams.get("pageCount");
   const titleParam = searchParams.get("title");
   const initialFilter = {
-    amount: amountParam,
-    //pageCount: pageCountParam,
+    maxAmount: maxAmountParam,
+    minAmount: minAmountParam,
+    pageCount: pageCountParam,
     title: titleParam,
   };
   const [filter, setFilter] = useState(initialFilter);
@@ -49,18 +51,20 @@ export function BookIndex() {
   if (!books) return <div className="loader"></div>;
   function onSetFilter(newFilter) {
     const updatedFilter = { ...filter, ...newFilter };
-    console.log(updatedFilter);
     setFilter(updatedFilter);
-    setSearchParams(updatedFilter);
+    const cleaned = Object.fromEntries(
+      Object.entries(updatedFilter).filter(([_, v]) => v != null && v !== "")
+    );
+    setSearchParams(cleaned);
   }
 
   async function makeBook() {
     const newBook = createBooks(1)[0];
     try {
       const saved = await bookService.save(newBook);
-      setBooks(prev => [saved, ...prev]);
+      setBooks((prev) => [saved, ...prev]);
     } catch (err) {
-      console.error('save failed', err);
+      console.error("save failed", err);
     }
   }
 
@@ -72,7 +76,7 @@ export function BookIndex() {
       <section className="add-book-container">
         <button onClick={() => navigate("/book/edit")}>Add Book</button>
       </section>
-      <BookList books={books} onRemove={() => removeBook}/>
+      <BookList books={books} onRemove={() => removeBook} />
     </section>
   );
 }

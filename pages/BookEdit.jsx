@@ -3,6 +3,7 @@ import { AddReview } from "../cmps/AddReview.jsx";
 import { ReviewsList } from "../cmps/ReviewsList.jsx";
 import { showErrorMsg, showSuccessMsg } from "../services/eventBusService.js";
 const { useState, useEffect } = React;
+const { useParams, useNavigate } = ReactRouterDOM;
 
 export function BookEdit() {
   const [book, setBook] = useState(bookService.getEmptyBook());

@@ -21,6 +21,8 @@ full data model example
 */
 
 const BOOK_KEY = 'BookKey';
+const CACHE_STORAGE_KEY = 'googleBooksCache';
+const gCache = utilService.loadFromStorage(CACHE_STORAGE_KEY) || {};
 
 export const bookService = {
   query,
@@ -33,17 +35,24 @@ export const bookService = {
   saveReview,
   removeReview,
   getEmptyReview,
+  getGoogleBooks,
 };
 
 export function query(filterBy = {}) {
+  if (!filterBy) filterBy = {};
+  console.log(filterBy);
   return storageService.query(BOOK_KEY).then((books) => {
     if (filterBy.title) {
       const regExp = new RegExp(filterBy.title, 'i');
       books = books.filter((book) => regExp.test(book.title));
     }
-    if (filterBy.amount) {
-      const parsedAmount = parseInt(filterBy.amount);
+    if (filterBy.maxAmount) {
+      const parsedAmount = parseInt(filterBy.maxAmount);
       books = books.filter((book) => book.listPrice.amount <= parsedAmount);
+    }
+    if (filterBy.minAmount) {
+      const parsedAmount = parseInt(filterBy.minAmount);
+      books = books.filter((book) => book.listPrice.amount >= parsedAmount);
     }
     return books;
   });
@@ -71,7 +80,7 @@ function remove(bookId) {
 }
 
 export function getEmptyFilter() {
-  return { title: '', pageCount: '' };
+  return { title: '' };
 }
 
 export function createBooks(amount) {
@@ -144,7 +153,7 @@ function getGoogleBooks(bookName) {
     console.log('data from network...', data);
     const books = _formatGoogleBooks(data);
     gCache[bookName] = books;
-    saveToStorage(CACHE_STORAGE_KEY, gCache);
+    utilService.saveToStorage(CACHE_STORAGE_KEY, gCache);
     return books;
   });
 }
@@ -207,7 +216,7 @@ function _formatGoogleBooks(googleBooks) {
       publishedDate: volumeInfo.publishedDate,
       language: volumeInfo.language,
       listPrice: {
-        amount: getRandomIntInclusive(80, 500),
+        amount: utilService.getRandomIntInclusive(80, 500),
         currencyCode: 'EUR',
         isOnSale: Math.random() > 0.7,
       },
