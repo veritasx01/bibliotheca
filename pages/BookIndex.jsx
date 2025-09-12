@@ -72,11 +72,11 @@ export function BookIndex() {
     <section className="book-index">
       <h1>books</h1>
       <FilterInput onSetFilter={onSetFilter} />
-      <button onClick={makeBook}>makeBook</button>
       <section className="add-book-container">
-        <button onClick={() => navigate("/book/edit")}>Add Book</button>
+        <button onClick={() => navigate("/book/edit")}>Add Custom Book</button>
+        <button onClick={() => navigate("/bookadd")}>Add Book</button>
       </section>
-      <BookList books={books} onRemove={() => removeBook} />
+      <BookList books={books} onRemove={removeBook} />
     </section>
   );
 }

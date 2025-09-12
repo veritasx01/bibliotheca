@@ -1,22 +1,16 @@
-import { BookData } from "./BookData.jsx";
 const { useState } = React;
 const { useNavigate } = ReactRouterDOM;
 
 export function BookPreview({ book, onRemove }) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
-  const toggle = () => setIsExpanded((prev) => !prev);
-  const details = isExpanded ? (
-    <BookData book={book} />
-  ) : (
-    <h2>{`Title: ${book.title}`}</h2>
+  const details = (
+    <p>{`${book.title}`}</p>
   );
   return (
     <article className="book-preview">
       <img src={book.thumbnail} alt={"Book Image"} />
-      <button onClick={toggle}>Expand</button>
-      <button onClick={() => onRemove(book.id)}>Remove</button>
-      <button onClick={() => navigate(`${book.id}`)}>Details</button>
+      <button onClick={() => onRemove(book.id)}>X</button>
+      <button onClick={() => navigate(`${book.id}`)}><i className="fa-solid fa-circle-info"></i></button>
       {details}
     </article>
   );

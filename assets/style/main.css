@@ -7,6 +7,8 @@
 @import "cmps/UserMsg.css";
 @import "cmps/AddReview.css";
 @import "cmps/ReviewsList.css";
+@import "cmps/BookPreview.css";
+@import "cmps/BookList.css";
 
 /* Vars */
 :root {
@@ -214,23 +216,6 @@ a.active {
   color: rgb(241, 212, 241);
   font-weight: 600;
   text-decoration: underline;
-}
-
-.books-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-.book-preview {
-  display: inline-block;
-  margin: 0 10px 10px 10px;
-  max-width: 300px;
-}
-
-.book-preview img {
-  display: block;
 }
 
 @media (max-width: 720px) {

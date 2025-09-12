@@ -1,0 +1,16 @@
+.book-preview {
+  display: inline-block;
+  margin: 0 10px 10px 10px;
+  max-width: 128px;
+  img {
+    display: block;
+  }
+  button img {
+    width: 15px;
+    height: 15px;
+  }
+  img {
+    height: 212px;
+  }
+}
+
