@@ -7,6 +7,7 @@ export const utilService = {
   getDayName,
   getMonthName,
   animateCSS,
+  debounce,
 };
 /**
  * @typedef { null | string | number | boolean | Jsonable[] | { [k: string]: Jsonable } } Jsonable

@@ -58,18 +58,18 @@ export function BookDetails() {
       <article className="book-details">
         <nav className="book-details-nav">
           <Link to={`/book/${prevBookId}`}>
-            <button>{"<-"}</button>
+            <button>{"◀"}</button>
           </Link>
           <Link to={`/book/${nextBookId}`}>
-            <button>{"->"}</button>
+            <button>{"▶"}</button>
           </Link>
         </nav>
         <button onClick={() => navigate(`../book/edit/${params.bookId}`)}>
           Go to editing
         </button>
         <h2>{title}</h2>
-        <span>{getBookDateLevel()}</span>
-        <h4>{bookReadingLevel()}</h4>
+        <span>{`${getBookDateLevel()}(${book.publishedDate})`}</span>
+        <h4>{`${bookReadingLevel()}(${book.pageCount})`}</h4>
 
         <img className="book-img" src={thumbnail} alt="" />
 
@@ -83,7 +83,7 @@ export function BookDetails() {
         </p>
         {categories && (
           <p>
-            <span className="bold-txt">Categoric:</span> {categories}
+            <span className="bold-txt">Category:</span> {categories}
           </p>
         )}
         {authors && (

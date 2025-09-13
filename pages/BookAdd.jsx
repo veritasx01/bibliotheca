@@ -1,4 +1,6 @@
 import { bookService } from "../services/bookService.js";
+import { showSuccessMsg, showErrorMsg } from "../services/eventBusService.js";
+import { utilService } from "../services/util.js";
 const { useState } = React;
 
 export function BookAdd() {
@@ -17,14 +19,20 @@ export function BookAdd() {
 
   function addToCollection(event, book) {
     event.preventDefault();
-    bookService.save(book);
+    bookService
+      .save(book)
+      .then(() => showSuccessMsg("book added successfully"))
+      .catch((error) => {
+        showErrorMsg("book couldn't be added");
+        console.log("error saving book, error: ", error);
+      });
   }
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        queryBooks();
+        utilService.debounce(queryBooks, 300);
       }}
     >
       <label>Book Name:</label>

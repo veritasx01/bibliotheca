@@ -1,6 +1,6 @@
 .books-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  margin: 25px 200px;
+  display: grid;
+  gap: 100px;
+  grid-template-columns: repeat(5,1fr);
 }
